@@ -31,8 +31,8 @@ function App() {
         <div className="content">
           <Routes>
             {/* Public Routes */}
-            <Route exact path="/cardPayment" element={<CardPaymentForm />} />
-            <Route exact path="/yapePayment" element={<YapePayment />} />
+            <Route path="/cardPayment" element={<CardPaymentForm />} />
+            <Route path="/yapePayment" element={<YapePayment />} />
 
             <Route exact path="/home" element={<HomePage />} />
             <Route exact path="/login" element={<LoginPage />} />
@@ -85,7 +85,7 @@ function App() {
             />
 
             {/* Fallback Route */}
-            <Route path="*" element={<Navigate to="/cardPayment" />} />
+            <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         </div>
         <FooterComponent />

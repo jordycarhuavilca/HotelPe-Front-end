@@ -295,7 +295,7 @@ const RoomDetailsPage = () => {
                   <b>Invitados totales:</b> {totalGuests}
                 </p>
                 <button
-                   onClick={() => handleRoomSelection(booking)} 
+                   onClick={() => handleRoomSelection()} 
                 >
                 </button>
               </div>
