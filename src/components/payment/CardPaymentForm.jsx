@@ -58,28 +58,24 @@ function CardPaymentForm() {
     "validation-error-messages"
   );
 
-  const CheckIn = sessionStorage.getItem("checkIn") || "";
-  const CheckOut = sessionStorage.getItem("checkOut") || "";
-  const Adultos = sessionStorage.getItem("adultos") || "";
-  const Ninios = sessionStorage.getItem("ninios") || "";
-  const room = sessionStorage.getItem("selectedRoomId") || "";
+  const reservationData = JSON.parse(localStorage.getItem("reservation")) || null;
+  console.log("reservationData ", reservationData);
 
-  parseInt(room)
-  parseInt(Ninios)
-  parseInt(Adultos)
-  const NumOfGuest = Ninios + Adultos
+  if (!reservationData) {
+    return;
+  }
 
   const reservation = {
-    checkInDate: CheckIn,
-    checkOutDate: CheckOut,
-    numOfAdults: Adultos,
-    numOfChildren: Ninios,
-    totalNumOfGuest: NumOfGuest,
+    checkInDate: reservationData.checkInDate,
+    checkOutDate: reservationData.checkOutDate,
+    numOfAdults: reservationData.numOfAdults,
+    numOfChildren: reservationData.numOfChildren,
+    totalNumOfGuest: reservationData.totalNumOfGuest,
     user: {
-      id: 8,
+      id: reservationData.user.id,
     },
     room: {
-      id: room,
+      id: reservationData.room.id,
     },
   };
 

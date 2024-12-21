@@ -1,10 +1,11 @@
 function RoomView() {
+  const reservation =
+    JSON.parse(localStorage.getItem("reservation")) || null;
 
-  const room_description = sessionStorage.getItem("room_description") || "Sin Descripción";
-  const roomPrice = sessionStorage.getItem("room_price") || "Sin Precio";
-  const roomType = sessionStorage.getItem("room_type") || "Sin Tipo";
-  const roomPeople = sessionStorage.getItem("room_people") || "Sin Gente";
-  const user_name = sessionStorage.getItem("user_name") || "Sin Usuario";
+  if (!reservation) {
+    return;
+  }
+
 
 
   return (
@@ -15,27 +16,44 @@ function RoomView() {
 
       <div className="mb-4">
         <p className="text-sm font-medium text-gray-700">Room Type:</p>
-        <p className="mt-1 text-gray-900 font-semibold">{roomType} </p>
+        <p className="mt-1 text-gray-900 font-semibold">
+          {reservation.room.roomType}{" "}
+        </p>
       </div>
 
       <div className="mb-4">
-        <p className="text-sm font-medium text-gray-700">Price:</p>
-        <p className="mt-1 text-gray-900 font-semibold">{roomPrice}</p>
+        <p className="text-sm font-medium text-gray-700">Precio total:</p>
+        <p className="mt-1 text-gray-900 font-semibold">
+          {reservation.totalPrice}
+        </p>
+      </div>
+
+      <div className="mb-4">
+        <p className="text-sm font-medium text-gray-700">
+          Checkin date and Checkout date
+        </p>
+        <p className="mt-1 text-gray-900 font-semibold">
+          {reservation.checkInDate} - {reservation.checkOutDate}
+        </p>
       </div>
 
       <div className="mb-4">
         <p className="text-sm font-medium text-gray-700">Descripción</p>
-        <p className="mt-1 text-gray-900">{room_description}</p>
+        <p className="mt-1 text-gray-900">{reservation.room.roomDescription}</p>
       </div>
 
       <div className="mb-4">
-        <p className="text-sm font-medium text-gray-700">Usuario</p>
-        <p className="mt-1 text-gray-900">{user_name}</p>
+        <p className="text-sm font-medium text-gray-700">Cliente</p>
+        <p className="mt-1 text-gray-900">{reservation.user.name}</p>
+        <p className="mt-1 text-gray-900">{reservation.user.email}</p>
+        <p className="mt-1 text-gray-900">{reservation.user.phoneNumber}</p>
       </div>
 
       <div className="mb-4">
         <p className="text-sm font-medium text-gray-700">Personas</p>
-        <p className="mt-1 text-gray-900">{roomPeople}</p>
+        <p className="mt-1 text-gray-900">{reservation.numOfAdults}</p>
+        <p className="mt-1 text-gray-900">{reservation.numOfChildren}</p>
+        <p className="mt-1 text-gray-900">{reservation.totalGuests}</p>
       </div>
     </div>
   );

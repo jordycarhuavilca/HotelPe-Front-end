@@ -17,19 +17,20 @@ const RoomDetailsPage = () => {
   const [totalPrice, setTotalPrice] = useState(0); // State variable for total booking price
   const [totalGuests, setTotalGuests] = useState(1); // State variable for total number of guests
   const [showDatePicker, setShowDatePicker] = useState(false); // State variable to control date picker visibility
-  const [userId, setUserId] = useState(""); // Set user id
+  const [user, setUser] = useState(""); // Set user id
+
   const [confirmationCode, setConfirmationCode] = useState(""); // State variable for booking confirmation code
 
-  const formattedCheckInDate = new Date(
-    checkInDate.getTime() - checkOutDate.getTimezoneOffset() * 60000
-  )
-    .toISOString()
-    .split("T")[0];
-  const formattedCheckOutDate = new Date(
-    checkOutDate.getTime() - checkOutDate.getTimezoneOffset() * 60000
-  )
-    .toISOString()
-    .split("T")[0];
+  // const formattedCheckInDate = new Date(
+  //   checkInDate?.getTime() - checkOutDate?.getTimezoneOffset() * 60000
+  // )
+  //   .toISOString()
+  //   .split("T")[0];
+  // const formattedCheckOutDate = new Date(
+  //   checkOutDate.getTime() - checkOutDate.getTimezoneOffset() * 60000
+  // )
+  //   .toISOString()
+  //   .split("T")[0];
 
   const [isLoadingButton, setIsLoadingButton] = useState(false);
 
@@ -38,9 +39,11 @@ const RoomDetailsPage = () => {
       try {
         setIsLoading(true); // Set loading state to true
         const response = await ApiService.getRoomById(roomId);
+
         setRoomDetails(response.room);
         const userProfile = await ApiService.getUserProfile();
-        setUserId(userProfile.user.id);
+
+        setUser(userProfile.user);
       } catch (error) {
         setError(error.response?.data?.message || error.message);
       } finally {
@@ -135,7 +138,7 @@ const RoomDetailsPage = () => {
       console.log(checkOutDate);
 
       // Make booking
-      const response = await ApiService.bookRoom(roomId, userId, booking);
+      const response = await ApiService.bookRoom(roomId, user.id, booking);
       if (response.statusCode === 200) {
         setConfirmationCode(response.bookingConfirmationCode); // Set booking confirmation code
         showSuccess(`¡Reserva exitosa!${confirmationCode}.`);
@@ -170,15 +173,34 @@ const RoomDetailsPage = () => {
   const { roomType, roomPrice, roomPhotoUrl, description, bookings } =
     roomDetails;
 
-    const handleRoomSelection = (booking) => {
-      sessionStorage.setItem('selectedRoomId', roomId);
-      sessionStorage.setItem('room_price', roomPrice);
-      sessionStorage.setItem('room_description', description);
-      sessionStorage.setItem('room_type', roomType);
-      sessionStorage.setItem('checkIn', formattedCheckInDate);
-      sessionStorage.setItem('checkOut', formattedCheckOutDate);
+  const handleRoomSelection = () => {
+    const startDate = new Date(checkInDate);
+    const endDate = new Date(checkOutDate);
+    const formattedCheckInDate = new Date(
+      startDate.getTime() - startDate.getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .split("T")[0];
+    const formattedCheckOutDate = new Date(
+      endDate.getTime() - endDate.getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .split("T")[0];
 
-      navigate(`/cardPayment`);
+    const reservation = {
+      checkInDate: formattedCheckInDate,
+      checkOutDate: formattedCheckOutDate,
+      totalPrice,
+      numOfAdults: numAdults,
+      numOfChildren: numChildren,
+      totalNumOfGuest: totalGuests,
+      user,
+      room: roomDetails,
+    };
+ 
+    localStorage.setItem("reservation", JSON.stringify(reservation));
+
+    navigate(`/cardPayment`);
   };
 
   return (
@@ -306,8 +328,10 @@ const RoomDetailsPage = () => {
                   <b>Invitados totales:</b> {totalGuests}
                 </p>
                 <button
-                   onClick={() => handleRoomSelection()} 
+                  className="text-white px-4 py-2 bg-blue-500 rounded-md hover:bg-blue-400 transition-all duration-300 gap-2 flex items-center justify-center"
+                  onClick={() => handleRoomSelection()}
                 >
+                  Rersevar
                 </button>
               </div>
             )}
