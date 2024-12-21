@@ -56,16 +56,16 @@ function CardPaymentForm() {
     "validation-error-messages"
   );
   const reservation = {
-    checkInDate: "2024-12-07",
-    checkOutDate: "2024-12-10", 
+    checkInDate: "2024-12-24",
+    checkOutDate: "2024-12-31", 
     numOfAdults: 2,
     numOfChildren: 1,
     totalNumOfGuest: 3,
     user: {
-      id: 13,
+      id: 8,
     },
     room: {
-      id: 19,
+      id: 5,
     },
   };
 
@@ -160,12 +160,12 @@ function CardPaymentForm() {
             try {
               // const response = await ApiService.processPayment(buildedBody);
               // console.log("response ", response);
-              fetch("http://localhost:4040/bookings/makeReservation", {
+              fetch("http://localhost:4040/bookings/booking", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
                   Authorization:
-                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqY2FyaHVhdmlsY2FAZHRyYW5zZm9ybWEuY29tIiwiaWF0IjoxNzMzNTEyNDk1LCJleHAiOjE3MzM1MjI1NzV9.iz_s2r-lBgOrnPXexAcUi9s1L1cnKyhSV14RC0ebUZc",
+                    "Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJqY2FyaHVhdmlsY2FAZHRyYW5zZm9ybWEuY29tIiwiaWF0IjoxNzM0NzUwNDMyLCJleHAiOjE3MzQ3NjA1MTJ9.ZarKEiQB88kLc9LXIo6jB5h1rmYiQzpcjjmVJrtarVL6NedJSVUNsNAkDnn6Co07piBv6mtsXtYn2EZJW67Yyau096CfT4nymlx-TYiUa_jxiJEn43kIJiNPf3hVGjQwGyfhrokVgNUeVTWM2YdRyS-VnfZCh0iCs26fEnGtqc9x0eulFluahteOkDzJi4ZxaR3Zx-RYSKnkgM8tHdIgSggidacafzOyEyI129Ff0wA_nCAB2EKBreGA8-rLgDzkFF6XqUImmfDsK-T3Iur40o8YFPbpV26LrKlmWB_7BpFvMh-G5CUd7Z2jjZkz6473pIMyq9obLHmodWfQDulUhg",
                 },
                 body: JSON.stringify(buildedBody),
               })
@@ -234,137 +234,176 @@ function CardPaymentForm() {
 
   return (
     <div>
-     <div class="flex flex-col lg:flex-row gap-8 bg-gray-50 p-6 rounded-lg shadow-md max-w-5xl mx-auto">
-  
-     <RoomView />
+      <div className="flex flex-col lg:flex-row gap-8 bg-gray-50 p-6 rounded-lg shadow-md max-w-5xl mx-auto">
+        <RoomView />
 
-    <form id="form-checkout" class="lg:w-1/2 bg-white p-6 rounded-lg shadow-md">
-      <h3 class="text-xl font-semibold text-gray-800 mb-4">Buyer Details</h3>
-      
-      <div class="mb-4">
-        <label for="form-checkout__cardholderEmail" class="block text-sm font-medium text-gray-700">
-          Email
-        </label>
-        <input
-          id="form-checkout__cardholderEmail"
-          name="cardholderEmail"
-          type="email"
-          class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-          placeholder="Enter your email"
-          required
-        />
-      </div>
-  
-      <div class="grid grid-cols-2 gap-4 mb-4">
-        <div>
-          <label for="form-checkout__identificationType" class="block text-sm font-medium text-gray-700">
-            ID Type
-          </label>
-          <select
-            id="form-checkout__identificationType"
-            name="identificationType"
-            class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            required
-          ></select>
-        </div>
-        <div>
-          <label for="form-checkout__identificationNumber" class="block text-sm font-medium text-gray-700">
-            ID Number
-          </label>
-          <input
-            id="form-checkout__identificationNumber"
-            name="docNumber"
-            type="text"
-            class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            placeholder="Enter your ID number"
-            required
-          />
-        </div>
-      </div>
-  
-      <h3 class="text-xl font-semibold text-gray-800 mb-4">Card Details</h3>
-  
-      <div class="grid grid-cols-2 gap-4 mb-4">
-        <div class="col-span-2">
-          <label for="form-checkout__cardholderName" class="block text-sm font-medium text-gray-700">
-            Cardholder Name
-          </label>
-          <input
-            id="form-checkout__cardholderName"
-            name="cardholderName"
-            type="text"
-            class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            placeholder="Name as on card"
-            required
-          />
-        </div>
-        <div>
-          <label for="form-checkout__expirationDate" class="block text-sm font-medium text-gray-700">
-            Expiration Date
-          </label>
-          <div
-            id="form-checkout__expirationDate"
-            class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm sm:text-sm h-[42px]"
-          ></div>
-        </div>
-        <div>
-          <label for="form-checkout__securityCode" class="block text-sm font-medium text-gray-700">
-            Security Code
-          </label>
-          <div
-            id="form-checkout__securityCode"
-            class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm sm:text-sm h-[42px]"
-          ></div>
-        </div>
-        <div class="col-span-2">
-          <label for="form-checkout__cardNumber" class="block text-sm font-medium text-gray-700">
-            Card Number
-          </label>
-          <div
-            id="form-checkout__cardNumber"
-            class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm sm:text-sm h-[42px]"
-          ></div>
-        </div>
-      </div>
-  
-      <div id="issuerInput" class="hidden mb-4">
-        <label for="form-checkout__issuer" class="block text-sm font-medium text-gray-700">
-          Issuer
-        </label>
-        <select
-          id="form-checkout__issuer"
-          name="issuer"
-          class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-        ></select>
-      </div>
-      <div class="mb-4">
-        <label for="form-checkout__installments" class="block text-sm font-medium text-gray-700">
-          Installments
-        </label>
-        <select
-          id="form-checkout__installments"
-          name="installments"
-          class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-        ></select>
-      </div>
-  
-      <div id="validation-error-messages" class="text-red-500 text-sm mb-4"></div>
-      <button
-        type="submit"
-        id="form-checkout__submit"
-        class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
-      >
-        Pay
-      </button>
-      <p id="loading-message" class="text-sm text-gray-500 mt-2 hidden">
-        Loading, please wait...
-      </p>
-      <a id="go-back" href="#" class="block mt-4 text-sm text-blue-600 hover:underline">
-        Go back to Shopping Cart
-      </a>
-    </form>
+        <form
+          id="form-checkout"
+          className="lg:w-1/2 bg-white p-6 rounded-lg shadow-md"
+        >
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">
+            Buyer Details
+          </h3>
 
-  </div>
+          <div className="mb-4">
+            <label
+              htmlFor="form-checkout__cardholderEmail"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Email
+            </label>
+            <input
+              id="form-checkout__cardholderEmail"
+              name="cardholderEmail"
+              type="email"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <label
+                htmlFor="form-checkout__identificationType"
+                className="block text-sm font-medium text-gray-700"
+              >
+                ID Type
+              </label>
+              <select
+                id="form-checkout__identificationType"
+                name="identificationType"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                required
+              ></select>
+            </div>
+            <div>
+              <label
+                htmlFor="form-checkout__identificationNumber"
+                className="block text-sm font-medium text-gray-700"
+              >
+                ID Number
+              </label>
+              <input
+                id="form-checkout__identificationNumber"
+                name="docNumber"
+                type="text"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                placeholder="Enter your ID number"
+                required
+              />
+            </div>
+          </div>
+
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">
+            Card Details
+          </h3>
+
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div className="col-span-2">
+              <label
+                htmlFor="form-checkout__cardholderName"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Cardholder Name
+              </label>
+              <input
+                id="form-checkout__cardholderName"
+                name="cardholderName"
+                type="text"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                placeholder="Name as on card"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="form-checkout__expirationDate"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Expiration Date
+              </label>
+              <div
+                id="form-checkout__expirationDate"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm sm:text-sm h-[42px]"
+              ></div>
+            </div>
+            <div>
+              <label
+                htmlFor="form-checkout__securityCode"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Security Code
+              </label>
+              <div
+                id="form-checkout__securityCode"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm sm:text-sm h-[42px]"
+              ></div>
+            </div>
+            <div className="col-span-2">
+              <label
+                htmlFor="form-checkout__cardNumber"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Card Number
+              </label>
+              <div
+                id="form-checkout__cardNumber"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm sm:text-sm h-[42px]"
+              ></div>
+            </div>
+          </div>
+
+          <div id="issuerInput" className="hidden mb-4">
+            <label
+              htmlFor="form-checkout__issuer"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Issuer
+            </label>
+            <select
+              id="form-checkout__issuer"
+              name="issuer"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            ></select>
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="form-checkout__installments"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Installments
+            </label>
+            <select
+              id="form-checkout__installments"
+              name="installments"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            ></select>
+          </div>
+
+          <div
+            id="validation-error-messages"
+            className="text-red-500 text-sm mb-4"
+          ></div>
+          <button
+            type="submit"
+            id="form-checkout__submit"
+            className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+          >
+            Pay
+          </button>
+          <p id="loading-message" className="text-sm text-gray-500 mt-2 hidden">
+            Loading, please wait...
+          </p>
+          <a
+            id="go-back"
+            href="#"
+            className="block mt-4 text-sm text-blue-600 hover:underline"
+          >
+            Go back to Shopping Cart
+          </a>
+        </form>
+      </div>
 
       <div ref={validationErrorMessagesRef}></div>
       {formStatus.error && <div className="error">{formStatus.error}</div>}

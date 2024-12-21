@@ -183,6 +183,7 @@ export default class ApiService {
     );
     return response.data;
   }
+  
   static async generateYapeToken(otp, phoneNumber, requestId) {
     const response = await axios.post(
       `https://api.mercadopago.com/platforms/pci/yape/v1/payment?public_key=TEST-8914ea61-79f9-404a-ab01-4cceed1d27c0`,
