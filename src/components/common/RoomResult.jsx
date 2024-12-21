@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 const RoomResult = ({ roomSearchResults }) => {
     const navigate = useNavigate(); 
     const isAdmin = ApiService.isAdmin();
+
     return (
         <section className="mt-5 w-11/12 mx-auto max-w-7xl">
             {roomSearchResults && roomSearchResults.length > 0 && (

@@ -4,6 +4,7 @@ import "../../assets/carPayment.css";
 import RoomView from "./RoomView.jsx"
 import axios from "axios";
 import ApiService from "../../service/ApiService.jsx";
+import { useNavigate } from 'react-router-dom'; 
 
 async function loadPayMarket() {
   const publicKey = "TEST-8914ea61-79f9-404a-ab01-4cceed1d27c0";
@@ -42,6 +43,7 @@ function enableOrDisablePayButton(validationErrorMessages, payButton) {
 }
 
 function CardPaymentForm() {
+  const navigate = useNavigate(); 
   const formRef = useRef(null);
   const validationErrorMessagesRef = useRef(null);
   const [payButtonDisabled, setPayButtonDisabled] = useState(true);
@@ -55,17 +57,29 @@ function CardPaymentForm() {
   const validationErrorMessages = document.getElementById(
     "validation-error-messages"
   );
+
+  const CheckIn = sessionStorage.getItem("checkIn") || "";
+  const CheckOut = sessionStorage.getItem("checkOut") || "";
+  const Adultos = sessionStorage.getItem("adultos") || "";
+  const Ninios = sessionStorage.getItem("ninios") || "";
+  const room = sessionStorage.getItem("selectedRoomId") || "";
+
+  parseInt(room)
+  parseInt(Ninios)
+  parseInt(Adultos)
+  const NumOfGuest = Ninios + Adultos
+
   const reservation = {
-    checkInDate: "2024-12-24",
-    checkOutDate: "2024-12-31", 
-    numOfAdults: 2,
-    numOfChildren: 1,
-    totalNumOfGuest: 3,
+    checkInDate: CheckIn,
+    checkOutDate: CheckOut,
+    numOfAdults: Adultos,
+    numOfChildren: Ninios,
+    totalNumOfGuest: NumOfGuest,
     user: {
       id: 8,
     },
     room: {
-      id: 5,
+      id: room,
     },
   };
 
@@ -108,6 +122,8 @@ function CardPaymentForm() {
         },
         issuer: { id: "form-checkout__issuer", placeholder: "Issuer" },
       };
+
+      
       const cardForm = mercadopago.cardForm({
         amount: document.getElementById("amount")?.value || "10", // Or pass dynamic data
         iframe: true,
@@ -176,8 +192,11 @@ function CardPaymentForm() {
                     setFormStatus({
                       loading: false,
                       success: true,
-                      error: null,
+                      error: null,                      
                     });
+
+                    navigate("/home")
+
                   } else {
                     setFormStatus({
                       loading: false,
@@ -390,18 +409,23 @@ function CardPaymentForm() {
             id="form-checkout__submit"
             className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
           >
-            Pay
+            Pay 
           </button>
-          <p id="loading-message" className="text-sm text-gray-500 mt-2 hidden">
-            Loading, please wait...
-          </p>
-          <a
-            id="go-back"
-            href="#"
-            className="block mt-4 text-sm text-blue-600 hover:underline"
-          >
-            Go back to Shopping Cart
-          </a>
+          <div id="cargando" style={{ display: formStatus.loading ? "block" : "none" }}>
+          <center>
+              <p className="text-sm text-gray-500 mt-2 ">
+                Loading, please wait...
+              </p>
+
+              <div role="status">
+                <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
+                  <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
+                </svg>
+                <span class="sr-only">Loading...</span>
+              </div>
+            </center>
+          </div>
         </form>
       </div>
 

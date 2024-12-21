@@ -159,6 +159,17 @@ const RoomDetailsPage = () => {
   const { roomType, roomPrice, roomPhotoUrl, description, bookings } =
     roomDetails;
 
+    const handleRoomSelection = (booking) => {
+      sessionStorage.setItem('selectedRoomId', booking.id);
+      sessionStorage.setItem('room_price', roomPrice);
+      sessionStorage.setItem('room_description', description);
+      sessionStorage.setItem('room_type', roomType);
+      sessionStorage.setItem('checkIn', formattedCheckInDate);
+      sessionStorage.setItem('checkOut', formattedCheckOutDate);
+
+      navigate(`/cardPayment`);
+  };
+
   return (
     <div className="mt-5 w-11/12 mx-auto max-w-7xl">
       <h2 className="text-3xl font-bold text-center">
@@ -284,16 +295,8 @@ const RoomDetailsPage = () => {
                   <b>Invitados totales:</b> {totalGuests}
                 </p>
                 <button
-                  onClick={acceptBooking}
-                  className={`px-2 py-2 rounded-md text-white ${
-                    isLoadingButton
-                      ? "bg-blue-300 cursor-not-allowed"
-                      : "bg-blue-500"
-                  }`}
+                   onClick={() => handleRoomSelection(booking)} 
                 >
-                  {isLoadingButton
-                    ? "Realizando Reserva..."
-                    : "Aceptar Reserva"}
                 </button>
               </div>
             )}
