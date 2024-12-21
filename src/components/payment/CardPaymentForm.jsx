@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { loadMercadoPago } from "@mercadopago/sdk-js";
 import "../../assets/carPayment.css";
+import RoomView from "./RoomView.jsx"
 import axios from "axios";
 import ApiService from "../../service/ApiService.jsx";
 
@@ -233,100 +234,137 @@ function CardPaymentForm() {
 
   return (
     <div>
-      <form id="form-checkout">
-        <h3 className="title">Buyer Details</h3>
-        <div className="row">
-          <div className="form-group col">
-            <input
-              id="form-checkout__cardholderEmail"
-              name="cardholderEmail"
-              type="email"
-              className="form-control"
-            />
-          </div>
+     <div class="flex flex-col lg:flex-row gap-8 bg-gray-50 p-6 rounded-lg shadow-md max-w-5xl mx-auto">
+  
+     <RoomView />
+
+    <form id="form-checkout" class="lg:w-1/2 bg-white p-6 rounded-lg shadow-md">
+      <h3 class="text-xl font-semibold text-gray-800 mb-4">Buyer Details</h3>
+      
+      <div class="mb-4">
+        <label for="form-checkout__cardholderEmail" class="block text-sm font-medium text-gray-700">
+          Email
+        </label>
+        <input
+          id="form-checkout__cardholderEmail"
+          name="cardholderEmail"
+          type="email"
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          placeholder="Enter your email"
+          required
+        />
+      </div>
+  
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        <div>
+          <label for="form-checkout__identificationType" class="block text-sm font-medium text-gray-700">
+            ID Type
+          </label>
+          <select
+            id="form-checkout__identificationType"
+            name="identificationType"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            required
+          ></select>
         </div>
-        <div className="row">
-          <div className="form-group col-sm-5">
-            <select
-              id="form-checkout__identificationType"
-              name="identificationType"
-              className="form-control"
-            ></select>
-          </div>
-          <div className="form-group col-sm-7">
-            <input
-              id="form-checkout__identificationNumber"
-              name="docNumber"
-              type="text"
-              className="form-control"
-            />
-          </div>
+        <div>
+          <label for="form-checkout__identificationNumber" class="block text-sm font-medium text-gray-700">
+            ID Number
+          </label>
+          <input
+            id="form-checkout__identificationNumber"
+            name="docNumber"
+            type="text"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            placeholder="Enter your ID number"
+            required
+          />
         </div>
-        <br />
-        <h3 className="title">Card Details</h3>
-        <div className="row">
-          <div className="form-group col-sm-8">
-            <input
-              id="form-checkout__cardholderName"
-              name="cardholderName"
-              type="text"
-              className="form-control"
-            />
-          </div>
-          <div className="form-group col-sm-4">
-            <div className="input-group expiration-date">
-              <div
-                id="form-checkout__expirationDate"
-                className="form-control h-40"
-              ></div>
-            </div>
-          </div>
-          <div className="form-group col-sm-8">
-            <div
-              id="form-checkout__cardNumber"
-              className="form-control h-40"
-            ></div>
-          </div>
-          <div className="form-group col-sm-4">
-            <div
-              id="form-checkout__securityCode"
-              className="form-control h-40"
-            ></div>
-          </div>
-          <div id="issuerInput" className="form-group col-sm-12 hidden">
-            <select
-              id="form-checkout__issuer"
-              name="issuer"
-              className="form-control"
-            ></select>
-          </div>
-          <div className="form-group col-sm-12">
-            <select
-              id="form-checkout__installments"
-              name="installments"
-              type="text"
-              className="form-control"
-            ></select>
-          </div>
-          <div className="form-group col-sm-12">
-            <input type="hidden" id="amount" value="10" />
-            <input type="hidden" id="description" value={"price"} />
-            <div id="validation-error-messages"></div>
-            <br />
-            <button
-              type="submit"
-              id="form-checkout__submit"
-              disabled={payButtonDisabled || formStatus.loading}
-            >
-              {formStatus.loading ? "Processing..." : "Pay"}
-            </button>
-            <br />
-            <p id="loading-message">Loading, please wait...</p>
-            <br />
-            <a id="go-back">Go back to Shopping Cart</a>
-          </div>
+      </div>
+  
+      <h3 class="text-xl font-semibold text-gray-800 mb-4">Card Details</h3>
+  
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        <div class="col-span-2">
+          <label for="form-checkout__cardholderName" class="block text-sm font-medium text-gray-700">
+            Cardholder Name
+          </label>
+          <input
+            id="form-checkout__cardholderName"
+            name="cardholderName"
+            type="text"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            placeholder="Name as on card"
+            required
+          />
         </div>
-      </form>
+        <div>
+          <label for="form-checkout__expirationDate" class="block text-sm font-medium text-gray-700">
+            Expiration Date
+          </label>
+          <div
+            id="form-checkout__expirationDate"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm sm:text-sm h-[42px]"
+          ></div>
+        </div>
+        <div>
+          <label for="form-checkout__securityCode" class="block text-sm font-medium text-gray-700">
+            Security Code
+          </label>
+          <div
+            id="form-checkout__securityCode"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm sm:text-sm h-[42px]"
+          ></div>
+        </div>
+        <div class="col-span-2">
+          <label for="form-checkout__cardNumber" class="block text-sm font-medium text-gray-700">
+            Card Number
+          </label>
+          <div
+            id="form-checkout__cardNumber"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm sm:text-sm h-[42px]"
+          ></div>
+        </div>
+      </div>
+  
+      <div id="issuerInput" class="hidden mb-4">
+        <label for="form-checkout__issuer" class="block text-sm font-medium text-gray-700">
+          Issuer
+        </label>
+        <select
+          id="form-checkout__issuer"
+          name="issuer"
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+        ></select>
+      </div>
+      <div class="mb-4">
+        <label for="form-checkout__installments" class="block text-sm font-medium text-gray-700">
+          Installments
+        </label>
+        <select
+          id="form-checkout__installments"
+          name="installments"
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+        ></select>
+      </div>
+  
+      <div id="validation-error-messages" class="text-red-500 text-sm mb-4"></div>
+      <button
+        type="submit"
+        id="form-checkout__submit"
+        class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+      >
+        Pay
+      </button>
+      <p id="loading-message" class="text-sm text-gray-500 mt-2 hidden">
+        Loading, please wait...
+      </p>
+      <a id="go-back" href="#" class="block mt-4 text-sm text-blue-600 hover:underline">
+        Go back to Shopping Cart
+      </a>
+    </form>
+
+  </div>
 
       <div ref={validationErrorMessagesRef}></div>
       {formStatus.error && <div className="error">{formStatus.error}</div>}
