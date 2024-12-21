@@ -20,6 +20,17 @@ const RoomDetailsPage = () => {
   const [userId, setUserId] = useState(""); // Set user id
   const [confirmationCode, setConfirmationCode] = useState(""); // State variable for booking confirmation code
 
+  const formattedCheckInDate = new Date(
+    checkInDate.getTime() - checkOutDate.getTimezoneOffset() * 60000
+  )
+    .toISOString()
+    .split("T")[0];
+  const formattedCheckOutDate = new Date(
+    checkOutDate.getTime() - checkOutDate.getTimezoneOffset() * 60000
+  )
+    .toISOString()
+    .split("T")[0];
+
   const [isLoadingButton, setIsLoadingButton] = useState(false);
 
   useEffect(() => {
@@ -160,7 +171,7 @@ const RoomDetailsPage = () => {
     roomDetails;
 
     const handleRoomSelection = (booking) => {
-      sessionStorage.setItem('selectedRoomId', booking.id);
+      sessionStorage.setItem('selectedRoomId', roomId);
       sessionStorage.setItem('room_price', roomPrice);
       sessionStorage.setItem('room_description', description);
       sessionStorage.setItem('room_type', roomType);
